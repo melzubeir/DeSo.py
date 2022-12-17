@@ -9,7 +9,9 @@ with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
 
 VERSION = "2.2.3"
 DESCRIPTION = "A python module for DeSo"
-LONG_DESCRIPTION = "DesoPy is a python module that enables devs to interact with DeSo Blockchain using node.deso.org node by default."
+LONG_DESCRIPTION = "DesoPy is a python package that interfaces with the DeSo " \
+    "Blockchain. It includes the following modules: Identity, Derived, Sign, " \
+    "Metadata, Posts, Social, User and Trade."
 # Setting up
 setup(
     name="deso",
