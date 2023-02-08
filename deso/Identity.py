@@ -5,7 +5,7 @@ from ecdsa import (
     VerifyingKey,
     SigningKey
 )
-from deso.Sign import Sign_Transaction
+from Sign import Sign_Transaction
 from base58 import b58decode_check
 
 
@@ -50,11 +50,17 @@ class Identity:
         except Exception as e:
             return {"isValid": False, "error": str(e)}
 
-    def signTransaction(seedHex, transactionHex):
+    def signTransaction(self, seedHex, transactionHex):
         """Signs Transaction thorugh seedHex.
         Supports derived key signing as well"""
         try:
             signedTransactionHex = Sign_Transaction(seedHex, transactionHex)
-            return signedTransactionHex
         except Exception as e:
             raise Exception(str(e))
+        return signedTransactionHex
+
+    def __repr__(self):
+        return f"Identity(publicKey={self.PUBLIC_KEY}, nodeURL={self.NODE_URL})"
+
+    def __str__(self):
+        return f"Identity object on {self.NODE_URL}"

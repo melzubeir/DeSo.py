@@ -60,3 +60,9 @@ class Derived:
             return submitTransactionResponse
         except Exception as e:
             raise e(error["error"])
+
+    def __repr__(self):
+        return f"Derived(publicKey={self.publicKey}, nodeURL={self.NODE_URL})"
+
+    def __str__(self):
+        return f"Derived object on {self.NODE_URL}"

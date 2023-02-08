@@ -1,6 +1,6 @@
-from deso.utils import submitTransaction, appendExtraData
+from utils import submitTransaction, appendExtraData
 import requests
-from deso.Sign import Sign_Transaction
+from Sign import Sign_Transaction
 from arweave.arweave_lib import Transaction
 from arweave.transaction_uploader import get_uploader
 import arweave
@@ -43,9 +43,10 @@ class Social:
         isHidden=False,
         repostedPostHash="",
         language="en",
-
+        postExtraData={},
     ):
-        postExtraData = {"App": self.appName, "Language": language}
+        postExtraData["App"] = self.appName
+        postExtraData["Language"] = language
         error = None
         endpointURL = self.NODE_URL + "submit-post"
         finalPostExtraData = postExtraData

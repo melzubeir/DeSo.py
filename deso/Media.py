@@ -1,4 +1,4 @@
-from deso.utils import getUserJWT
+from utils import getUserJWT
 import requests
 
 NODES = [

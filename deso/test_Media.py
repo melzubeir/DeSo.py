@@ -3,6 +3,8 @@ Unit tests for the deso.posts module.
 """
 import unittest
 import sys
+from os import environ
+from dotenv import load_dotenv
 from Media import Media
 
 
@@ -11,8 +13,8 @@ class TestMedia(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super(TestMedia, self).__init__(*args, **kwargs)
-        self.publicReaderKey = 'BC1YLiy1Ny1btpBkaNHBaUD5D9xX8PhdgeToPn' \
-            '3Fq95RhCMYQVW1Anw'
+        load_dotenv()
+        self.publicReaderKey = environ.get('TESTBOT1_PUBKEY')
         self.media = Media()
 
     def test_upload_image(self):
@@ -20,8 +22,8 @@ class TestMedia(unittest.TestCase):
         imageFileList = [
             ('file', ('deso.png', open("../deso.png", "rb"), 'image/png'))
         ]
-        publicKey = input("Enter your public key: ")
-        seedHex = input("Enter your seed hex: ")
+        publicKey = self.publicReaderKey
+        seedHex = environ.get('TESTBOT1_SEEDHEX')
         self.media = Media(publicKey, seedHex)
         try:
             response = self.media.uploadImage(imageFileList)

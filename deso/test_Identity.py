@@ -2,7 +2,10 @@
 Unit tests for the deso.posts module.
 """
 import unittest
+from os import environ
+from dotenv import load_dotenv
 from Identity import Identity
+
 
 
 class TestIdentity(unittest.TestCase):
@@ -10,12 +13,15 @@ class TestIdentity(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super(TestIdentity, self).__init__(*args, **kwargs)
-        self.publicReaderKey = 'BC1YLiy1Ny1btpBkaNHBaUD5D9xX8Phdge' \
-            'ToPn3Fq95RhCMYQVW1Anw'
-        self.userPublicKey = input("Enter your public key: ")
-        self.userSeedHex = input("Enter your seed hex: ")
+        load_dotenv()
         self.jwt_token = None
-        self.identity = Identity(self.userPublicKey, self.userSeedHex)
+        self.pubKey = environ.get('TESTBOT1_PUBKEY')
+        self.seedHex = environ.get('TESTBOT1_SEEDHEX')
+        self.transHex = environ.get('TESTBOT1_TANSACTIONHEX')
+        self.identity = Identity(
+            publicKey = self.pubKey,
+            seedHex = self.seedHex,
+            )
 
     def test_get_JWT(self):
         """Test the getJWT method."""
@@ -26,16 +32,15 @@ class TestIdentity(unittest.TestCase):
         """Test the validateJWT method."""
         v = self.identity.validateJWT(
             JWT=self.jwt_token,
-            publicKey=self.userPublicKey
+            publicKey=self.pubKey
         )
         self.assertTrue(v)
 
     def test_sign_transaction(self):
         """Test the signTransaction method."""
-        transactionHex = input("Enter your transaction hex: ")
         r = self.identity.signTransaction(
-            seedHex=self.userSeedHex,
-            transactionHex=transactionHex
+            self.seedHex,
+            self.transHex,
         )
         self.assertIsNotNone(r)
 
