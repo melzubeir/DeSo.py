@@ -3,7 +3,7 @@ Unit tests for the deso.posts module.
 """
 import unittest
 import sys
-from User import User
+from deso import User
 
 
 class TestUser(unittest.TestCase):

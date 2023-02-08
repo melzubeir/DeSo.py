@@ -1,4 +1,4 @@
-from utils import submitTransaction, appendExtraData
+from deso.utils import submitTransaction, appendExtraData
 import requests
 from deso.Sign import Sign_Transaction
 from arweave.arweave_lib import Transaction

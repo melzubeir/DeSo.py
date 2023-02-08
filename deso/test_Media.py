@@ -5,7 +5,7 @@ import unittest
 import sys
 from os import environ
 from dotenv import load_dotenv
-from Media import Media
+from deso import Media
 
 
 class TestMedia(unittest.TestCase):

@@ -4,7 +4,7 @@ Unit tests for the deso.posts module.
 import unittest
 import sys
 from os import environ
-from Trade import Trade
+from deso import Trade
 
 
 class TestTrade(unittest.TestCase):

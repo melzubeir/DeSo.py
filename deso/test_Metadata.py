@@ -3,7 +3,7 @@ Unit tests for the deso.posts module.
 """
 import unittest
 import sys
-from Metadata import Metadata
+from deso import Metadata
 
 
 class TestMetadata(unittest.TestCase):
