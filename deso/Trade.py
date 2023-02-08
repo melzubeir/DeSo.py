@@ -1,6 +1,6 @@
 import requests
-from utils import submitTransaction, appendExtraData
-from Sign import Sign_Transaction
+from deso.utils import submitTransaction, appendExtraData
+from deso.Sign import Sign_Transaction
 
 NODES = [
     'https://node.deso.org/api/v0/',

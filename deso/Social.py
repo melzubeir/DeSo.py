@@ -1,6 +1,6 @@
 from utils import submitTransaction, appendExtraData
 import requests
-from Sign import Sign_Transaction
+from deso.Sign import Sign_Transaction
 from arweave.arweave_lib import Transaction
 from arweave.transaction_uploader import get_uploader
 import arweave
