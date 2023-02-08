@@ -5,7 +5,7 @@ from ecdsa import (
     VerifyingKey,
     SigningKey
 )
-from Sign import Sign_Transaction
+from deso.Sign import Sign_Transaction
 from base58 import b58decode_check
 
 
