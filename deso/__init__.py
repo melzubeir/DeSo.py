@@ -1,4 +1,4 @@
-from deso.Identity import Identity
+from Identity import Identity
 from deso.Media import Media
 from deso.Metadata import Metadata
 from deso.Social import Social
