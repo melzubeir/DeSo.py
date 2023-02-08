@@ -5,7 +5,7 @@ import unittest
 import sys
 from os import environ
 from dotenv import load_dotenv
-from deso import Social
+from deso.Social import Social
 
 
 class TestSocial(unittest.TestCase):
