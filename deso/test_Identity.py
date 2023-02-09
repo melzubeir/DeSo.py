@@ -4,7 +4,7 @@ Unit tests for the deso.posts module.
 import unittest
 from os import environ
 from dotenv import load_dotenv
-from deso.Identity import Identity
+from Identity import Identity
 
 
 
