@@ -44,8 +44,19 @@ class TestSocial(unittest.TestCase):
     def test_2_mint(self):
         """Test the mint method."""
         try:
+            response = self.social.submitPost(
+                "This post should be minted",
+            )
+        except Exception as e:
+            self.fail(e)
+        finally:
+            sys.stdout.write(
+                f'\nsubmitPost() using node: '
+                f'{self.social.NODE_URL}\n')
+        self.post_hash = response.json()['PostEntryResponse']['PostHashHex']
+        try:
             response = self.social.mint(
-                self.post_hash,
+                postHashHex=self.post_hash,
                 minBidDeSo=0.00001, copy=2, creatorRoyalty=10,
                 coinHolderRoyalty=4, isForSale=True
             )
@@ -59,8 +70,6 @@ class TestSocial(unittest.TestCase):
 
 
         self.assertEqual(response.status_code, 200)
-        self.nft_post = response.json()['NFTPostHashHex']
-
 
     def test_3_follow(self):
         """Test the follow method."""
