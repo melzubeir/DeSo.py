@@ -12,9 +12,9 @@ class TestPosts(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super(TestPosts, self).__init__(*args, **kwargs)
-        self.post_hash = environ.get('TESTBOT1_POSTHASH')
-        self.nft_post = environ.get('TESTBOT1_NFTPOST')
-        self.publicReaderKey = environ.get('TESTBOT1_PUBKEY')
+        self.post_hash = environ['TESTBOT1_POSTHASH']
+        self.nft_post = environ['TESTBOT1_NFTPOST']
+        self.publicReaderKey = environ['TESTBOT1_PUBKEY']
 
         self.posts = Posts(readerPublicKey=self.publicReaderKey)
 
