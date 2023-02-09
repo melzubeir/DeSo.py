@@ -15,9 +15,9 @@ class TestIdentity(unittest.TestCase):
         super(TestIdentity, self).__init__(*args, **kwargs)
         load_dotenv()
         self.jwt_token = None
-        self.pubKey = environ.get('TESTBOT1_PUBKEY')
-        self.seedHex = environ.get('TESTBOT1_SEEDHEX')
-        self.transHex = environ.get('TESTBOT1_TANSACTIONHEX')
+        self.pubKey = environ['TESTBOT1_PUBKEY']
+        self.seedHex = environ['TESTBOT1_SEEDHEX']
+        self.transHex = environ['TESTBOT1_TANSACTIONHEX']
         self.identity = Identity(
             publicKey = self.pubKey,
             seedHex = self.seedHex,
