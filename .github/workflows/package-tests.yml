@@ -2,16 +2,7 @@
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
 name: Python package
-env:
-  TESTBOT1_SEEDHEX: ${{ secrets.TESTBOT1_SEEDHEX }}
-  TESTBOT2_SEEDHEX: ${{ secrets.TESTBOT2_SEEDHEX }}
-  TESTBOT3_SEEDHEX: ${{ secrets.TESTBOT3_SEEDHEX }}
-  TESTBOT1_TANSACTIONHEX: ${{ secrets.TESTBOT1_TANSACTIONHEX }}
-  TESTBOT1_PUBKEY: ${{ TESTBOT1_PUBKEY }}
-  TESTBOT2_PUBKEY: ${{ TESTBOT2_PUBKEY }}
-  TESTBOT3_PUBKEY: ${{ TESTBOT3_PUBKEY }}
-  TESTBOT1_NFTPOST: ${{ TESTBOT1_NFTPOST }}
-  TESTBOT1_POSTHASH: ${{ TESTBOT1_POSTHASH }}
+
 on:
   push:
     branches: [ "workflows" ]
@@ -46,5 +37,15 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
+      env:
+        TESTBOT1_SEEDHEX: ${{ secrets.TESTBOT1_SEEDHEX }}
+        TESTBOT2_SEEDHEX: ${{ secrets.TESTBOT2_SEEDHEX }}
+        TESTBOT3_SEEDHEX: ${{ secrets.TESTBOT3_SEEDHEX }}
+        TESTBOT1_TANSACTIONHEX: ${{ secrets.TESTBOT1_TANSACTIONHEX }}
+        TESTBOT1_PUBKEY: ${{ TESTBOT1_PUBKEY }}
+        TESTBOT2_PUBKEY: ${{ TESTBOT2_PUBKEY }}
+        TESTBOT3_PUBKEY: ${{ TESTBOT3_PUBKEY }}
+        TESTBOT1_NFTPOST: ${{ TESTBOT1_NFTPOST }}
+        TESTBOT1_POSTHASH: ${{ TESTBOT1_POSTHASH }}    
       run: |
         pytest
