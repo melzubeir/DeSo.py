@@ -20,7 +20,7 @@ class TestMedia(unittest.TestCase):
     def test_upload_image(self):
         """Test the uploadImage method."""
         imageFileList = [
-            ('file', ('deso.png', open("../deso.png", "rb"), 'image/png'))
+            ('file', ('deso.png', open("deso.png", "rb"), 'image/png'))
         ]
         publicKey = self.publicReaderKey
         seedHex = environ.get('TESTBOT1_SEEDHEX')
