@@ -42,10 +42,10 @@ jobs:
         TESTBOT2_SEEDHEX: ${{ secrets.TESTBOT2_SEEDHEX }}
         TESTBOT3_SEEDHEX: ${{ secrets.TESTBOT3_SEEDHEX }}
         TESTBOT1_TANSACTIONHEX: ${{ secrets.TESTBOT1_TANSACTIONHEX }}
-        TESTBOT1_PUBKEY: ${{ env.TESTBOT1_PUBKEY }}
-        TESTBOT2_PUBKEY: ${{ env.TESTBOT2_PUBKEY }}
-        TESTBOT3_PUBKEY: ${{ env.TESTBOT3_PUBKEY }}
-        TESTBOT1_NFTPOST: ${{ env.TESTBOT1_NFTPOST }}
-        TESTBOT1_POSTHASH: ${{ env.TESTBOT1_POSTHASH }}    
+        TESTBOT1_PUBKEY: ${{ secrets.TESTBOT1_PUBKEY }}
+        TESTBOT2_PUBKEY: ${{ secrets.TESTBOT2_PUBKEY }}
+        TESTBOT3_PUBKEY: ${{ secrets.TESTBOT3_PUBKEY }}
+        TESTBOT1_NFTPOST: ${{ secrets.TESTBOT1_NFTPOST }}
+        TESTBOT1_POSTHASH: ${{ secrets.TESTBOT1_POSTHASH }}    
       run: |
         pytest
