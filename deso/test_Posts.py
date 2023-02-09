@@ -3,6 +3,7 @@ Unit tests for the deso.posts module.
 """
 import unittest
 import sys
+from os import environ
 from deso.Posts import Posts
 
 
@@ -11,12 +12,9 @@ class TestPosts(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super(TestPosts, self).__init__(*args, **kwargs)
-        self.post_hash = '75b0244b1abc19e3e7ae0cf36f43ecb12588aa30ae4'\
-            '8db7992edf3fb94d289ad'
-        self.nft_post = '2298e051237a8b831aa27d4748d759a8002dd1ab4481'\
-            '95ae89d888446ee444e3'
-        self.publicReaderKey = 'BC1YLiy1Ny1btpBkaNHBaUD5D9xX8PhdgeToP'\
-            'n3Fq95RhCMYQVW1Anw'
+        self.post_hash = environ.get('TESTBOT1_POSTHASH')
+        self.nft_post = environ.get('TESTBOT1_NFTPOST')
+        self.publicReaderKey = environ.get('TESTBOT1_PUBKEY')
 
         self.posts = Posts(readerPublicKey=self.publicReaderKey)
 
