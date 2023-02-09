@@ -19,6 +19,7 @@ class TestMedia(unittest.TestCase):
 
     def test_upload_image(self):
         """Test the uploadImage method."""
+        load_dotenv()
         imageFileList = [
             ('file', ('deso.png', open("deso.png", "rb"), 'image/png'))
         ]
