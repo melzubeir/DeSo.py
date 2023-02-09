@@ -43,9 +43,10 @@ class Social:
         isHidden=False,
         repostedPostHash="",
         language="en",
-
+        postExtraData={},
     ):
-        postExtraData = {"App": self.appName, "Language": language}
+        postExtraData["App"] = self.appName
+        postExtraData["Language"] = language
         error = None
         endpointURL = self.NODE_URL + "submit-post"
         finalPostExtraData = postExtraData
@@ -496,6 +497,8 @@ class Social:
         '''
         error = None
         endpointURL = self.NODE_URL + "create-nft"
+        if postHashHex is None:
+            return None
         payload = {
             "UpdaterPublicKeyBase58Check": self.PUBLIC_KEY,
             "NFTPostHashHex": postHashHex,
@@ -514,8 +517,11 @@ class Social:
             response = requests.post(endpointURL, json=payload)
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
+        try:
+            transactionHex = response.json()["TransactionHex"]
+        except Exception as e:
+            raise SystemExit(e)
 
-        transactionHex = response.json()["TransactionHex"]
         if (
             self.DERIVED_PUBLIC_KEY is not None
             and self.DERIVED_SEED_HEX is not None

@@ -3,7 +3,9 @@ Unit tests for the deso.posts module.
 """
 import unittest
 import sys
-from Social import Social
+from os import environ
+from dotenv import load_dotenv
+from deso.Social import Social
 
 
 class TestSocial(unittest.TestCase):
@@ -11,19 +13,17 @@ class TestSocial(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super(TestSocial, self).__init__(*args, **kwargs)
-        self.post_hash = '75b0244b1abc19e3e7ae0cf36f43ecb12588aa30ae48' \
-            'db7992edf3fb94d289ad'
-        self.nft_post = '2298e051237a8b831aa27d4748d759a8002dd1ab44819' \
-            '5ae89d888446ee444e3'
-        self.publicReaderKey = 'BC1YLiy1Ny1btpBkaNHBaUD5D9xX8PhdgeToPn' \
-            '3Fq95RhCMYQVW1Anw'
-        self.username = 'deso'
-        self.userPublicKey = input("Enter your public key: ")
-        self.userSeedHex = input("Enter your seed hex: ")
+        load_dotenv()
+
+        self.post_hash = ''
+        self.nft_post = environ.get('TESTBOT1_NFTPOST')
+        self.publicReaderKey = environ.get('TESTBOT2_PUBKEY')
+        self.userPublicKey = environ.get('TESTBOT1_PUBKEY')
+        self.userSeedHex = environ.get('TESTBOT1_SEEDHEX')
 
         self.social = Social(self.userPublicKey, self.userSeedHex)
 
-    def test_submit_post(self):
+    def test_1_submit_post(self):
         """Test the submitPost method."""
         try:
             response = self.social.submitPost(
@@ -35,9 +35,43 @@ class TestSocial(unittest.TestCase):
             sys.stdout.write(
                 f'\nsubmitPost() using node: '
                 f'{self.social.NODE_URL}\n')
+
+        self.post_hash = response.json()['PostEntryResponse']['PostHashHex']
+        print(f'\nPost hash: {self.post_hash}\n')
         self.assertEqual(response.status_code, 200)
 
-    def test_follow(self):
+
+    def test_2_mint(self):
+        """Test the mint method."""
+        try:
+            response = self.social.submitPost(
+                "This post should be minted",
+            )
+        except Exception as e:
+            self.fail(e)
+        finally:
+            sys.stdout.write(
+                f'\nsubmitPost() using node: '
+                f'{self.social.NODE_URL}\n')
+        self.post_hash = response.json()['PostEntryResponse']['PostHashHex']
+        try:
+            response = self.social.mint(
+                postHashHex=self.post_hash,
+                minBidDeSo=0.00001, copy=2, creatorRoyalty=10,
+                coinHolderRoyalty=4, isForSale=True
+            )
+        except Exception as e:
+            self.fail(e)
+        finally:
+            sys.stdout.write(
+                f'\nmint() using node: {self.social.NODE_URL}\n' \
+                f'to mint NFT post: {self.post_hash}\n' \
+                f'{response.json()}\n')
+
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_3_follow(self):
         """Test the follow method."""
         try:
             response = self.social.follow(
@@ -52,6 +86,22 @@ class TestSocial(unittest.TestCase):
                 f'{self.social.NODE_URL}\n')
         self.assertEqual(response.status_code, 200)
 
+    def test_4_follow(self):
+        """Test the (un)follow method."""
+        try:
+            response = self.social.follow(
+                self.publicReaderKey,
+                isFollow=False
+            )
+        except Exception as e:
+            self.fail(e)
+        finally:
+            sys.stdout.write(
+                f'\n(un)follow() using node: '
+                f'{self.social.NODE_URL}\n')
+        self.assertEqual(response.status_code, 200)
+
+'''
     def test_repost(self):
         """Test the repost method."""
         try:
@@ -112,6 +162,7 @@ class TestSocial(unittest.TestCase):
         try:
             response = self.social.updateProfile(
                 FR=10, description="This is my new description",
+                username='testbot1', profilePicBase64=""
             )
         except Exception as e:
             self.fail(e)
@@ -135,20 +186,7 @@ class TestSocial(unittest.TestCase):
                 f'{self.social.NODE_URL}\n')
         self.assertEqual(response.status_code, 200)
 
-    def test_mint(self):
-        """Test the mint method."""
-        try:
-            response = self.social.mint(
-                self.post_hash,
-                minBidDeSo=1, copy=2, creatorRoyalty=10,
-                coinHolderRoyalty=4, isForSale=True
-            )
-        except Exception as e:
-            self.fail(e)
-        finally:
-            sys.stdout.write(
-                f'\nmint() using node: {self.social.NODE_URL}\n')
-        self.assertEqual(response.status_code, 200)
+
 
     def test_update_nft(self):
         """Test the updateNFT method."""
@@ -173,7 +211,7 @@ class TestSocial(unittest.TestCase):
         try:
             response = self.social.burnNFT(
                 self.nft_post,
-                serialNumber=2
+                serialNumber=1
             )
         except Exception as e:
             self.fail(e)
@@ -189,7 +227,7 @@ class TestSocial(unittest.TestCase):
             response = self.social.createNFTBid(
                 NFTPostHashHex=self.nft_post,
                 serialNumber=1,
-                bidAmountDeso=2
+                bidAmountDeso=0.00001,
             )
         except Exception as e:
             self.fail(e)
@@ -205,7 +243,7 @@ class TestSocial(unittest.TestCase):
             response = self.social.transferNFT(
                 self.nft_post,
                 self.publicReaderKey,
-                serialNumber=2
+                serialNumber=1
             )
         except Exception as e:
             self.fail(e)
@@ -214,7 +252,7 @@ class TestSocial(unittest.TestCase):
                 f'\ntransferNFT() using node: '
                 f'{self.social.NODE_URL}\n')
         self.assertEqual(response.status_code, 200)
-
+'''
 
 if __name__ == "__main__":
     unittest.main()

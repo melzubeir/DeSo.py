@@ -3,7 +3,8 @@ Unit tests for the deso.posts module.
 """
 import unittest
 import sys
-from Trade import Trade
+from os import environ
+from deso.Trade import Trade
 
 
 class TestTrade(unittest.TestCase):
@@ -13,8 +14,8 @@ class TestTrade(unittest.TestCase):
         super(TestTrade, self).__init__(*args, **kwargs)
         self.receiverPublicKey = 'BC1YLiy1Ny1btpBkaNHBaUD5D9xX8PhdgeToPn3Fq' \
             '95RhCMYQVW1Anw'
-        self.userPublicKey = input("Enter your public key: ")
-        self.userSeedHex = input("Enter your seed hex: ")
+        self.userPublicKey = environ.get('TESTBOT1_PUBKEY')
+        self.userSeedHex = environ.get('TESTBOT1_SEEDHEX')
         self.trade = Trade(self.userPublicKey, self.userSeedHex)
 
     def test_send_deso(self):
@@ -74,7 +75,7 @@ class TestTrade(unittest.TestCase):
 
     def test_sell_creator_coin(self):
         """Test the sellCreatorCoin method."""
-        coinsToSellNanos = 1
+        coinsToSellNanos = 10
         try:
             response = self.trade.sellCreatorCoin(
                 creatorPublicKey=self.receiverPublicKey,
@@ -90,7 +91,7 @@ class TestTrade(unittest.TestCase):
 
     def test_send_creator_coins(self):
         """Test the sendCreatorCoins method."""
-        coinsToSendNanos = 1
+        coinsToSendNanos = 10
         try:
             response = self.trade.sendCreatorCoins(
                 creatorPublicKey=self.receiverPublicKey,
@@ -107,17 +108,17 @@ class TestTrade(unittest.TestCase):
 
     def test_send_dao_coins(self):
         """Test the sendDAOCoins method."""
-        coinsToTransfer = 15
+        coinsToTransfer = 1
         coinsAmountHex = hex(int(coinsToTransfer * 1e18))
         transHex = self.trade.sendDAOCoins(
             coinsToTransfer=coinsAmountHex,
             daoPublicKeyOrName="CockyClout",
             receiverPublicKeyOrUsername="ItsAditya")
-        self.assertIsInstance(transHex, hex)
+        self.assertEqual(transHex.status_code, 200)
 
     def test_burn_dao_coins(self):
         """Test the burnDAOCoins method."""
-        coinsToBurn = 5000000
+        coinsToBurn = 5
         coinsAmountHex = hex(int(coinsToBurn * 1e18))
 
         transHex = self.trade.burnDAOCoins(
@@ -128,7 +129,7 @@ class TestTrade(unittest.TestCase):
 
     def test_mint_dao_coins(self):
         """Test the mintDAOCoins method."""
-        coinsToMint = 1000000
+        coinsToMint = 10
         coinsAmountHex = hex(int(coinsToMint * 1e18))
 
         transHex = self.trade.mintDAOCoins(

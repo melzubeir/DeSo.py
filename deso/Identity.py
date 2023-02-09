@@ -5,6 +5,9 @@ from ecdsa import (
     VerifyingKey,
     SigningKey
 )
+from hdwallet.utils import generate_mnemonic
+from hdwallet import HDWallet
+from hdwallet.symbols import BTC
 from deso.Sign import Sign_Transaction
 from base58 import b58decode_check
 
@@ -50,11 +53,31 @@ class Identity:
         except Exception as e:
             return {"isValid": False, "error": str(e)}
 
-    def signTransaction(seedHex, transactionHex):
+    def signTransaction(self, seedHex, transactionHex):
         """Signs Transaction thorugh seedHex.
         Supports derived key signing as well"""
         try:
             signedTransactionHex = Sign_Transaction(seedHex, transactionHex)
-            return signedTransactionHex
         except Exception as e:
             raise Exception(str(e))
+        return signedTransactionHex
+
+    # Credit to @Nathanwells on DeSo for this function
+    def generateDesoSeedPhrase():
+        """Generates a 12 word seed phrase for DeSo Identity"""
+        seedPhrase = generate_mnemonic(language="english")
+        return seedPhrase
+    # Credit to @Nathanwells on DeSo for this function
+
+    def getSeedHexFromSeedPhrase(seedPhrase):
+        '''Returns the seedHex of  a seedPhrase'''
+        hdwallet = HDWallet(symbol=BTC)
+        hdwallet.from_mnemonic(mnemonic=seedPhrase, passphrase=None)
+        hdwallet.from_path(path='m/44\'/0\'/0\'/0/0')
+        return hdwallet.private_key()
+
+    def __repr__(self):
+        return f"Identity(publicKey={self.PUBLIC_KEY}, nodeURL={self.NODE_URL})"
+
+    def __str__(self):
+        return f"Identity object on {self.NODE_URL}"

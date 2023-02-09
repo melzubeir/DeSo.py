@@ -3,7 +3,9 @@ Unit tests for the deso.posts module.
 """
 import unittest
 import sys
-from Media import Media
+from os import environ
+from dotenv import load_dotenv
+from deso.Media import Media
 
 
 class TestMedia(unittest.TestCase):
@@ -11,17 +13,18 @@ class TestMedia(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super(TestMedia, self).__init__(*args, **kwargs)
-        self.publicReaderKey = 'BC1YLiy1Ny1btpBkaNHBaUD5D9xX8PhdgeToPn' \
-            '3Fq95RhCMYQVW1Anw'
+        load_dotenv()
+        self.publicReaderKey = environ.get('TESTBOT1_PUBKEY')
         self.media = Media()
 
     def test_upload_image(self):
         """Test the uploadImage method."""
+        load_dotenv()
         imageFileList = [
-            ('file', ('deso.png', open("../deso.png", "rb"), 'image/png'))
+            ('file', ('deso.png', open("deso.png", "rb"), 'image/png'))
         ]
-        publicKey = input("Enter your public key: ")
-        seedHex = input("Enter your seed hex: ")
+        publicKey = self.publicReaderKey
+        seedHex = environ.get('TESTBOT1_SEEDHEX')
         self.media = Media(publicKey, seedHex)
         try:
             response = self.media.uploadImage(imageFileList)
