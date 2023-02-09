@@ -75,7 +75,7 @@ class TestTrade(unittest.TestCase):
 
     def test_sell_creator_coin(self):
         """Test the sellCreatorCoin method."""
-        coinsToSellNanos = 1
+        coinsToSellNanos = 10
         try:
             response = self.trade.sellCreatorCoin(
                 creatorPublicKey=self.receiverPublicKey,
@@ -91,7 +91,7 @@ class TestTrade(unittest.TestCase):
 
     def test_send_creator_coins(self):
         """Test the sendCreatorCoins method."""
-        coinsToSendNanos = 1
+        coinsToSendNanos = 10
         try:
             response = self.trade.sendCreatorCoins(
                 creatorPublicKey=self.receiverPublicKey,
@@ -114,7 +114,7 @@ class TestTrade(unittest.TestCase):
             coinsToTransfer=coinsAmountHex,
             daoPublicKeyOrName="CockyClout",
             receiverPublicKeyOrUsername="ItsAditya")
-        self.assertIsInstance(transHex, hex)
+        self.assertEqual(transHex.status_code, 200)
 
     def test_burn_dao_coins(self):
         """Test the burnDAOCoins method."""
